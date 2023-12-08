@@ -50,3 +50,10 @@ class Rating(db.Model, IDto):
             person_id=dto_dict.get("person_id")
         )
         return obj
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "id": self.id,
+            "mark": self.mark,
+            "person_id": self.person_id,
+        }

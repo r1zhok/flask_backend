@@ -4,9 +4,11 @@ from flask import Blueprint, jsonify, Response, request, make_response
 
 from my_project.auth.controller.orders.film_controller import FilmController
 from my_project.auth.domain.orders.film import Film
+from my_project.auth.service.orders.film_service import FilmService
 
 film_bp = Blueprint('films', __name__, url_prefix='/films')
 film = FilmController()
+film_service = FilmService()
 
 
 @film_bp.get('')
