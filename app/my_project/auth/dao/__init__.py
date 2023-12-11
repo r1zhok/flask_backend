@@ -1,25 +1,21 @@
-from .orders.film_dao import FilmDAO
-from .orders.actor_dao import ActorDAO
-from .orders.extra_info_dao import ExtraInfoDAO
-from .orders.description_dao import DescriptionDAO
-from .orders.interesting_facts_dao import InterestingFactsDAO
-from .orders.film_has_rating_dao import FilmHasRatingDAO
-from .orders.genre_dao import GenreDAO
-from .orders.person_dao import PersonDAO
-from .orders.rating_dao import RatingDAO
-from .orders.review_dao import ReviewDAO
-from .orders.review_has_film_dao import ReviewHasFilmDAO
-from .orders.roles_dao import RolesDAO
+from .orders.available_flight_dao import AvailableFlightDAO
+from .orders.airline_dao import AirlineDAO
+from .orders.avaible_weight_dao import AvaibleWeightDao
+from .orders.airport_dao import AirportDAO
+from .orders.user_dao import UserDAO
+from .orders.info_for_buyed_tickets_dao import InfoForBuyedTicketsDAO
+from .orders.tickets_dao import TicketsDAO
+from .orders.user_purchase_history_dao import UserPurchaseHistoryDAO
+from .orders.available_flights_has_avaible_weight_dao import AvailableFlightsHasAvaibleWeightDAO
+from .orders.connected_flight_dao import ConnectedFlightDAO
 
-film_dao = FilmDAO()
-client_type_dao = ActorDAO()
-extra_info_dao = ExtraInfoDAO()
-description_dao = DescriptionDAO()
-interesting_facts_dao = InterestingFactsDAO()
-film_has_rating_dao = FilmHasRatingDAO()
-genre_dao = GenreDAO()
-person_dao = PersonDAO()
-rating_dao = RatingDAO()
-review_dao = ReviewDAO()
-review_has_film_dao = ReviewHasFilmDAO()
-roles_dao = RolesDAO()
+available_flight_dao = AvailableFlightDAO()
+airline_dao = AirlineDAO()
+avaible_weight_dao = AvaibleWeightDao()
+airport_dao = AirportDAO()
+user_dao = UserDAO()
+info_for_buyed_tickets_dao = InfoForBuyedTicketsDAO()
+tickets_dao = TicketsDAO()
+user_purchase_history_dao = UserPurchaseHistoryDAO()
+available_flights_has_avaible_weight_dao = AvailableFlightsHasAvaibleWeightDAO()
+connected_flight_dao = ConnectedFlightDAO()

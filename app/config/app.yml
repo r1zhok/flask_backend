@@ -5,11 +5,11 @@ COMMON: &common
 development:
   <<: *common
   DEBUG: True
-  SQLALCHEMY_DATABASE_URI: 'mysql://{0}:{1}@localhost/netflix'
+  SQLALCHEMY_DATABASE_URI: 'mysql://{0}:{1}@localhost/sky_scanner'
 
 production:
   <<: *common
-  SQLALCHEMY_DATABASE_URI: 'mysql://{0}:{1}@localhost/netflix'
+  SQLALCHEMY_DATABASE_URI: 'mysql://{0}:{1}@localhost/sky_scanner'
 
 ADDITIONAL_CONFIG:
   MYSQL_ROOT_USER: root

@@ -1,26 +1,22 @@
-from .orders.film_controller import FilmController
-from .orders.actor_controller import ActorController
-from .orders.description_controller import DescriptionController
-from .orders.extra_info_controller import ExtraInfoController
-from .orders.film_has_rating_controller import FilmHasRatingController
-from .orders.genre_controller import GenreController
-from .orders.interesting_facts_controller import InterestingFactsController
-from .orders.person_controller import PersonController
-from .orders.rating_controller import RatingController
-from .orders.review_controller import ReviewController
-from .orders.review_has_film_controller import ReviewHasFilmController
-from .orders.roles_controller import RolesController
+from .orders.available_flight_controller import AvailableFlightController
+from .orders.airline_controller import AirlineController
+from .orders.airport_controller import AirportController
+from .orders.avaible_weight_controller import AvaibleWeightController
+from .orders.info_for_buyed_tickets_controller import InfoForBuyedTicketsController
+from .orders.tickets_controller import TicketsController
+from .orders.user_controller import UserController
+from .orders.user_purchase_history_controller import UserPurchaseHistoryController
+from .orders.available_flights_has_avaible_weight_controller import AvailableFlightsHasAvaibleWeightController
+from .orders.connected_flight_controller import ConnectedFlightController
 
 
-film_controller = FilmController()
-actor_controller = ActorController()
-description_controller = DescriptionController()
-extra_info_controller = ExtraInfoController()
-film_has_rating_controller = FilmHasRatingController()
-genre_controller = GenreController()
-interesting_facts_controller = InterestingFactsController()
-person_controller = PersonController()
-rating_controller = RatingController()
-review_controller = ReviewController()
-review_has_film_controller = ReviewHasFilmController()
-roles_controller = RolesController()
+film_controller = AvailableFlightController()
+actor_controller = AirlineController()
+description_controller = AirportController()
+extra_info_controller = AvaibleWeightController()
+film_has_rating_controller = InfoForBuyedTicketsController()
+genre_controller = TicketsController()
+interesting_facts_controller = UserController()
+person_controller = UserPurchaseHistoryController()
+rating_controller = AvailableFlightsHasAvaibleWeightController()
+review_controller = ConnectedFlightController()
