@@ -21,6 +21,7 @@ class Review(db.Model, IDto):
     review = db.Column(db.String(225), nullable=False)
     creation_date = db.Column(db.Date, nullable=True)
     person_id = db.Column(db.Integer, db.ForeignKey('person.id'), nullable=False)
+    films = db.relationship('Film', secondary='review_has_film', back_populates='review')
 
     person = db.relationship('Person', backref=db.backref('reviews', lazy=True))
 

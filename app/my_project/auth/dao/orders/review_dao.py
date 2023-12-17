@@ -21,3 +21,6 @@ class ReviewDAO(GeneralDAO):
 
     def find_all(self):
         return Review.query.all()
+
+    def get_person_rating(self, person_id):
+        return self._session.query(Review).filter(Review.person_id == person_id).order_by(Review.person_id).all()

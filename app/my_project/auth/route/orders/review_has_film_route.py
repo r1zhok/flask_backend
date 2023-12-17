@@ -3,6 +3,8 @@ from http import HTTPStatus
 from flask import Blueprint, jsonify, Response, request, make_response
 
 from my_project.auth.controller.orders.review_has_film_controller import ReviewHasFilmController
+from my_project.auth.domain import Film
+from my_project.auth.domain.orders.films_and_review import FilmsAndReview
 from my_project.auth.domain.orders.review_has_film import ReviewHasFilm
 
 review_has_film_bp = Blueprint('review_has_film', __name__, url_prefix='/review_has_film')
@@ -12,6 +14,17 @@ review_has_film = ReviewHasFilmController()
 @review_has_film_bp.get('')
 def get_all_descriptions() -> Response:
     return make_response(jsonify(review_has_film.find_all()), HTTPStatus.OK)
+
+
+@review_has_film_bp.get('all_data')
+def get_all_data() -> Response:
+    films = Film.query.all()
+    massive = []
+    for film in films:
+        for review in film.review:
+            massive.append(FilmsAndReview(film.name, review.review, review.creation_date).to_dict())
+
+    return make_response(jsonify(massive), HTTPStatus.OK)
 
 
 @review_has_film_bp.post('')

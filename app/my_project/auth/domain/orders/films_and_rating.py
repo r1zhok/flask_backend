@@ -1,7 +1,7 @@
 from typing import Dict, Any
 
 
-class Test:
+class FilmsAndRating:
 
     def __init__(self, name, mark, person_id):
         self.name = name

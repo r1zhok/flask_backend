@@ -12,3 +12,15 @@ class ActorService(GeneralService):
     Realisation of ClientType service.
     """
     _dao = actor_dao.ActorDAO()
+
+    def insert_actor(self, p_name: str, p_surname: str, p_age: int, p_film_id: int):
+        return self._dao.insert_actor(p_name, p_surname, p_age, p_film_id)
+
+    def insert_noname_actors(self):
+        return self._dao.insert_noname_actors()
+
+    def get_statistic(self):
+        return self._dao.get_statistic()
+
+    def create_dynamic_tables(self):
+        self._dao.create_additional_tables()

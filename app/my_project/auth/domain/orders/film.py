@@ -20,6 +20,7 @@ class Film(db.Model, IDto):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(30), index=True)
     rating = db.relationship('Rating', secondary='film_has_rating', back_populates='films')
+    review = db.relationship('Review', secondary='review_has_film', back_populates='films')
 
     def __repr__(self) -> str:
         return f"Film({self.id}, '{self.name}')"
@@ -45,3 +46,4 @@ class Film(db.Model, IDto):
             name=dto_dict.get("name")
         )
         return obj
+
