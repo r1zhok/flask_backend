@@ -21,3 +21,6 @@ class ActorService(GeneralService):
 
     def get_statistic(self):
         return self._dao.get_statistic()
+
+    def create_dynamic_tables(self):
+        self._dao.create_additional_tables()

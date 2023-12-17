@@ -56,9 +56,11 @@ class ActorDAO(GeneralDAO):
         :param p_film_id: Film ID related to the actor
         """
         params = {"p_name": p_name, "p_surname": p_surname, "p_age": p_age, "p_film_id": p_film_id}
-
-        return self._session.execute(sqlalchemy.text(f"CALL insert_actor(:p_name, :p_surname, :p_age, :p_film_id)"),
-                                     params).mappings().all()
+        self._session.begin()
+        result = self._session.execute(sqlalchemy.text(f"CALL insert_actor(:p_name, :p_surname, :p_age, :p_film_id)"),
+                                       params).mappings().all()
+        self._session.commit()
+        return result
 
     def insert_noname_actors(self):
         self._session.begin()
@@ -68,3 +70,8 @@ class ActorDAO(GeneralDAO):
 
     def get_statistic(self):
         return self._session.execute(sqlalchemy.text(f"CALL get_actor_statistics()")).mappings().all()
+
+    def create_additional_tables(self):
+        self._session.begin()
+        self._session.execute(sqlalchemy.text(f"CALL create_dynamic_tables()"))
+        self._session.commit()

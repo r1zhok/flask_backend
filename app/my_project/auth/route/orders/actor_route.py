@@ -111,3 +111,9 @@ def get_actor_roles(actor_id: int) -> Response:
     actor_roles = roles_dao.find_by_actor_id(actor_id)
     roles_data = [role.to_dict() for role in actor_roles]
     return make_response(jsonify(roles_data), HTTPStatus.OK)
+
+
+@actor_bp.get('/create_tables')
+def create_dynamic_tables() -> Response:
+    actor.create_dynamic_tables()
+    return make_response("Tables created", HTTPStatus.CREATED)

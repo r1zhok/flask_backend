@@ -41,16 +41,17 @@ DELIMITER //
 
 CREATE PROCEDURE insert_data_procedure(
     IN p_name VARCHAR(255),
-    IN mark INT
+    IN mark INT,
+    IN p_person_id INT
 )
 BEGIN
-    INSERT INTO Film (name) VALUES (p_name);
+    INSERT INTO film (name) VALUES (p_name);
     SET @table1_id = LAST_INSERT_ID();
 
-    INSERT INTO Rating (mark) VALUES (mark);
+    INSERT INTO rating (mark, person_id) VALUES (mark, p_person_id);
     SET @table2_id = LAST_INSERT_ID();
 
-    INSERT INTO JunctionTable (table1_id, table2_id) VALUES (@table1_id, @table2_id);
+    INSERT INTO film_has_rating (film_id, rating_id) VALUES (@table1_id, @table2_id);
 END //
 
 DELIMITER ;
@@ -97,56 +98,64 @@ DELIMITER //
 CREATE PROCEDURE create_dynamic_tables()
 BEGIN
     DECLARE done INT DEFAULT FALSE;
-    DECLARE tableName VARCHAR(255);
-    DECLARE columnName VARCHAR(255);
-    DECLARE columnType VARCHAR(50);
-    DECLARE numColumns INT;
+    DECLARE table_name_cursor VARCHAR(255);
+    DECLARE column_count INT;
+    DECLARE column_name VARCHAR(255);
 
-    SET tableName = CONCAT('DynamicTable_', UNIX_TIMESTAMP(NOW()));
+    DECLARE cur_tables CURSOR FOR
+        SELECT name, created_at
+        FROM table_with_timestamp;
 
-    SET numColumns = ROUND(RAND() * 8) + 1;
-
-    SET @createQuery = CONCAT('CREATE TABLE ', tableName, ' (');
-
-    DECLARE cur CURSOR FOR SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'YourTableName';
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
-    OPEN cur;
+    OPEN cur_tables;
 
-    column_loop: LOOP
-        FETCH cur INTO columnName, columnType;
-
+    read_tables: LOOP
+        FETCH cur_tables INTO table_name_cursor, column_name;
         IF done THEN
-            LEAVE column_loop;
+            LEAVE read_tables;
         END IF;
 
-        SET @createQuery = CONCAT(@createQuery, columnName, ' ', columnType, ',');
+        SET column_count = FLOOR(1 + RAND() * 9);
 
-        SET numColumns = numColumns - 1;
+        SET @sql = CONCAT('CREATE TABLE `', REPLACE(table_name_cursor, ' ', '_'), '_', UNIX_TIMESTAMP(NOW()), '` (');
 
-        IF numColumns = 0 THEN
-            LEAVE column_loop;
-        END IF;
+        SET @column_definitions = '';
+        SET @i = 0;
+
+        WHILE @i < column_count DO
+            SET @column_name = CONCAT('column', @i);
+            SET @column_type = CASE FLOOR(1 + RAND() * 3)
+                WHEN 1 THEN 'INT'
+                WHEN 2 THEN 'VARCHAR(255)'
+                WHEN 3 THEN 'DOUBLE'
+            END;
+
+            SET @column_definitions = CONCAT(@column_definitions, @column_name, ' ', @column_type);
+
+            SET @i = @i + 1;
+            IF @i < column_count THEN
+                SET @column_definitions = CONCAT(@column_definitions, ', ');
+            END IF;
+        END WHILE;
+
+        SET @sql = CONCAT(@sql, @column_definitions, ');');
+
+        PREPARE stmt FROM @sql;
+        EXECUTE stmt;
+        DEALLOCATE PREPARE stmt;
     END LOOP;
 
-    CLOSE cur;
-
-    SET @createQuery = LEFT(@createQuery, LENGTH(@createQuery) - 1);
-    SET @createQuery = CONCAT(@createQuery, ');');
-
-    PREPARE createStmt FROM @createQuery;
-    EXECUTE createStmt;
-    DEALLOCATE PREPARE createStmt;
-
+    CLOSE cur_tables;
 END //
 
 DELIMITER ;
 DELIMITER //
-CREATE TRIGGER prevent_double_zeros
-BEFORE INSERT ON actor
+CREATE TRIGGER prevent_double_zeros_description
+BEFORE INSERT ON description
 FOR EACH ROW
 BEGIN
-    IF NEW.name LIKE '%00' THEN
+    IF NEW.description LIKE '%00' THEN
         SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Value cannot end with double zeros';
     END IF;
@@ -154,8 +163,8 @@ END;
 //
 DELIMITER ;
 DELIMITER //
-CREATE TRIGGER prevent_modification_update
-BEFORE UPDATE ON actor
+CREATE TRIGGER prevent_modification_update_description
+BEFORE UPDATE ON description
 FOR EACH ROW
 BEGIN
     SIGNAL SQLSTATE '45000'
@@ -164,8 +173,8 @@ END;
 //
 DELIMITER ;
 DELIMITER //
-CREATE TRIGGER prevent_deletion
-BEFORE DELETE ON actor
+CREATE TRIGGER prevent_deletion_description
+BEFORE DELETE ON description
 FOR EACH ROW
 BEGIN
     SIGNAL SQLSTATE '45000'

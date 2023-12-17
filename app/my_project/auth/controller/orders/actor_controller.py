@@ -16,3 +16,6 @@ class ActorController(GeneralController):
 
     def get_statistic(self):
         return self._service.get_statistic()
+
+    def create_dynamic_tables(self):
+        self._service.create_dynamic_tables()

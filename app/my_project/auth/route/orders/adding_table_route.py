@@ -1,7 +1,5 @@
 from http import HTTPStatus
-
 from flask import Blueprint, Response, make_response, jsonify, request
-
 from my_project.auth.controller.orders import adding_table_controller
 from my_project.auth.domain.orders.additional_table import AdditionalTable
 

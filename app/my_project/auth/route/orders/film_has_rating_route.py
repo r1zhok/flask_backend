@@ -14,7 +14,7 @@ def get_all_descriptions() -> Response:
     return make_response(jsonify(film_has_rating.find_all()), HTTPStatus.OK)
 
 
-@film_has_rating_bp.get('all_data')
+@film_has_rating_bp.get('/all_data')
 def get_all_data() -> Response():
     films = Film.query.all()
     massive = []
@@ -28,8 +28,8 @@ def get_all_data() -> Response():
 @film_has_rating_bp.post('')
 def create_description() -> Response:
     content = request.get_json()
-    film_has_rating.insert_data_procedure(content.get("name"), content.get("mark"))
-    return make_response(HTTPStatus.CREATED)
+    film_has_rating.insert_data_procedure(content.get("name"), content.get("mark"), content.get("person_id"))
+    return make_response("FilmHasRating created and father tables created", HTTPStatus.OK)
 
 
 @film_has_rating_bp.get('/<int:film_has_rating_id>')

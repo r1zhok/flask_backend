@@ -26,6 +26,9 @@ class FilmHasRatingDAO(GeneralDAO):
     def find_all(self):
         return FilmHasRating.query.all()
 
-    def insert_data_procedure(self, p_name: str, mark: int):
-        query = text("CALL insert_data_procedure(:p_name, :mark)")
-        self._session.execute(query, {"p_name": p_name, "mark": mark})
+    def insert_data_procedure(self, p_name: str, mark: int, person_id: int):
+        query = text("CALL insert_data_procedure(:p_name, :mark, :person_id)")
+
+        self._session.begin()
+        self._session.execute(query, {"p_name": p_name, "mark": mark, "person_id": person_id})
+        self._session.commit()
